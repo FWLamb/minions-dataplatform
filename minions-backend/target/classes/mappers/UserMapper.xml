@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.minions.admin.mapper.UserMapper">
+    <select id="getPermissionByUserId" resultType="java.lang.String">
+        SELECT permission.permission_code AS permissionCode
+        FROM user
+                 INNER JOIN user_role
+                 INNER JOIN role_permission
+                 INNER JOIN permission
+                            ON user.id = user_role.user_id
+                                AND user_role.role_id = role_permission.role_id
+                                AND role_permission.permission_id = permission.id
+        WHERE user.id = #{userId}
+    </select>
+    <select id="getUserRoleName" resultType="java.lang.String">
+        SELECT role.role_name AS roleName
+        FROM user_role
+                 INNER JOIN role ON user_role.role_id = role.id
+        WHERE user_role.user_id = #{id}
+    </select>
+</mapper>
